@@ -36,8 +36,8 @@ def eta_sqrt(c = 0.1):
         return c / math.sqrt(t + 1);
     return eta;
 
-def eta_multistep_curry(milestones, eta_init = 0.1, c = 0.1):
-    def eta_multistep(t):
+def eta_multistep(milestones, eta_init = 0.1, c = 0.1):
+    def eta(t):
         # if it passed all milestones, easy calculation
         if (t >= milestones[-1]):
             return pow(c, milestones.size) * eta_init;
@@ -48,7 +48,7 @@ def eta_multistep_curry(milestones, eta_init = 0.1, c = 0.1):
             p = p + 1;
             i = i + 1;
         return pow(c, p) * eta_init;
-    return eta_multistep;
+    return eta;
         
 # Initial point (0,0)
 x00 = np.array([1,1]);
@@ -62,6 +62,6 @@ print("f(x_100) using c/sqrt(t+1) step size with c = 0.1 = " + str(f(x100)));
 print("\n" * 2);
 
 milestones = np.array([10, 60, 90]);
-x100 = gradient_descent(f, grad_f, eta_multistep_curry(milestones, eta_init = 0.1, c = 0.5), x00, 100);
+x100 = gradient_descent(f, grad_f, eta_multistep(milestones, eta_init = 0.1, c = 0.5), x00, 100);
 print("f(x_100) using milestones="+str(milestones)+" eta policy = " + str(f(x100)));
 
